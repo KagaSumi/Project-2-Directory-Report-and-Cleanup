@@ -6,8 +6,21 @@ import pathlib as PL
 def Print(Directory:PL.Path, Date:DT.datetime):
     print(f'\nRoot directory: {Directory}\nBest Before Date: {Date}')
     print(f'Files to delete:')
+    ScrapeFolder(Directory,Date)
     return
 
+def ScrapeFolder(Directory:PL.Path,Date:DT.datetime):
+    Files = os.listdir(Directory)
+    for file in Files:
+        path = os.path.join(Directory,file)
+        M_TIME = DT.datetime.fromtimestamp(os.path.getmtime(path))
+        if Date > M_TIME:
+            M_TIME = M_TIME.strftime('%Y-%m-%d')
+            SIZE = os.path.getsize(path)
+            print(f'{file} was last modified: {M_TIME} {SIZE} bytes')
+        if os.path.isdir(path):
+            ScrapeFolder(path,Date)
+    return
 def Report():
     print('report')
     return
@@ -33,7 +46,7 @@ def VerifyAction(Action:str) -> bool:
     elif  (Action.upper() in Actions[1]):
         return False
     else:
-        print(f'{Action} is not a valid input')
+        print(f'{Action} is not a valid action\nActions should be "Print" or "Report"')
         raise ValueError     
 
 def VerifyDirectory(Directory:str) -> PL.Path:
@@ -68,9 +81,9 @@ def VerifyDate(Date:str) -> DT.datetime:
         datetime: Returns a datetime value.
     """    
     try:
-        return DT.date.fromisoformat(Date)
+        return DT.datetime.fromisoformat(Date)
     except ValueError:
-            print(f'{Date} is not a valid date')
+            print(f'{Date} is not a valid date\nDate should be in the form of YYYY-MM-DD')
             raise ValueError
 
 def main():
@@ -91,8 +104,16 @@ def main():
     if Action:
         Print(Directory,Date)
     else:
-        Report()
-    
+        Report()   
 
 if __name__ == '__main__':
     main()
+    
+# rows = [('apple', '$1.09', '80'), ('truffle', '$58.01', '2')]
+
+# lens = []
+# for col in zip(*rows):
+#     lens.append(max([len(v) for v in col]))
+# format = "  ".join(["{:<" + str(l) + "}" for l in lens])
+# for row in rows:
+#     print(format.format(*row))
