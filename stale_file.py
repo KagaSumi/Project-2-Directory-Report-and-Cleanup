@@ -10,6 +10,16 @@ def Print(Directory:PL.Path, Date:DT.datetime):
     print(list)
 
 def ScrapeFolder(Directory:PL.Path,Date:DT.datetime,Root:PL.Path) -> list[tuple[str,str,int]]:
+    """Takes in a Directory,Date,and Root directory and returns a list of files that was last modified before the date.
+
+    Args:
+        Directory (PL.Path): Current working directory
+        Date (DT.datetime): Date to compare against date modified
+        Root (PL.Path): Original working directory
+
+    Returns:
+        list[tuple[str,str,int]]: a List of a tuples containing the files that were last modified before the date specified.
+    """    
     Files = os.listdir(Directory)
     List_Files = []
     for file in Files:
