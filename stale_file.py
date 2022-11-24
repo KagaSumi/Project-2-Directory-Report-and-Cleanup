@@ -6,24 +6,26 @@ import pathlib as PL
 def Print(Directory:PL.Path, Date:DT.datetime):
     print(f'\nRoot directory: {Directory}\nBest Before Date: {Date}')
     print(f'Files to delete:')
-    ScrapeFolder(Directory,Date)
-    return
+    ScrapeFolder(Directory,Date,True)
 
-def ScrapeFolder(Directory:PL.Path,Date:DT.datetime):
-    Files = os.listdir(Directory)
-    for file in Files:
-        path = os.path.join(Directory,file)
-        M_TIME = DT.datetime.fromtimestamp(os.path.getmtime(path))
-        if Date > M_TIME:
-            M_TIME = M_TIME.strftime('%Y-%m-%d')
-            SIZE = os.path.getsize(path)
-            print(f'{file} was last modified: {M_TIME} {SIZE} bytes')
-        if os.path.isdir(path):
-            ScrapeFolder(path,Date)
-    return
+def ScrapeFolder(Directory:PL.Path,Date:DT.datetime,PRINT_REPORT:bool):
+    if PRINT_REPORT:
+        Files = os.listdir(Directory)
+        for file in Files:
+            path = os.path.join(Directory,file)
+            M_TIME = DT.datetime.fromtimestamp(os.path.getmtime(path))
+            if Date > M_TIME:
+                M_TIME = M_TIME.strftime('%Y-%m-%d')
+                SIZE = os.path.getsize(path)
+                print(f'{file} was last modified: {M_TIME} {SIZE} bytes')
+            if os.path.isdir(path):
+                ScrapeFolder(path,Date,True)
+    else:
+        #Todo:Report part of ScrapeFolder
+        pass
+
 def Report():
     print('report')
-    return
 
 def VerifyAction(Action:str) -> bool:
     """Takes in a string representing the action user wants to execute. Returns a boolean indicating
