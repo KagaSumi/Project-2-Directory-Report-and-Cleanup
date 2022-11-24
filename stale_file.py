@@ -3,11 +3,11 @@ import sys
 import os
 import pathlib as PL
 
-def Print():
+def Print(Directory:PL.Path, Date:DT.datetime):
     print('print')
     return
 
-def Report():
+def Report(Directory:PL.Path, Date:DT.datetime):
     print('report')
     return
 
