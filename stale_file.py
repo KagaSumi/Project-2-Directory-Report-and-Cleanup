@@ -6,23 +6,25 @@ import pathlib as PL
 def Print(Directory:PL.Path, Date:DT.datetime):
     print(f'\nRoot directory: {Directory}\nBest Before Date: {Date}')
     print(f'Files to delete:')
-    ScrapeFolder(Directory,Date,True)
+    list = ScrapeFolder(Directory,Date,Directory)
+    print(list)
 
-def ScrapeFolder(Directory:PL.Path,Date:DT.datetime,PRINT_REPORT:bool):
-    if PRINT_REPORT:
-        Files = os.listdir(Directory)
-        for file in Files:
-            path = os.path.join(Directory,file)
-            M_TIME = DT.datetime.fromtimestamp(os.path.getmtime(path))
-            if Date > M_TIME:
-                M_TIME = M_TIME.strftime('%Y-%m-%d')
-                SIZE = os.path.getsize(path)
-                print(f'{file} was last modified: {M_TIME} {SIZE} bytes')
-            if os.path.isdir(path):
-                ScrapeFolder(path,Date,True)
-    else:
-        #Todo:Report part of ScrapeFolder
-        pass
+def ScrapeFolder(Directory:PL.Path,Date:DT.datetime,Root:PL.Path) -> list[tuple[str,str,int]]:
+    Files = os.listdir(Directory)
+    List_Files = []
+    for file in Files:
+        path = os.path.join(Directory,file)
+        M_TIME = DT.datetime.fromtimestamp(os.path.getmtime(path))
+        if Date > M_TIME:
+            M_TIME = M_TIME.strftime('%Y-%m-%d')
+            SIZE = os.path.getsize(path)
+            rel_file = os.path.relpath(path,Root)
+            List_Files.append((rel_file,M_TIME,SIZE))
+        if os.path.isdir(path):
+            if SubList := ScrapeFolder(path,Date,Root):
+                for item in SubList:
+                    List_Files.append(item)
+    return List_Files
 
 def Report():
     print('report')
