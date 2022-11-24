@@ -133,12 +133,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    
-# rows = [('apple', '$1.09', '80'), ('truffle', '$58.01', '2')]
-
-# lens = []
-# for col in zip(*rows):
-#     lens.append(max([len(v) for v in col]))
-# format = "  ".join(["{:<" + str(l) + "}" for l in lens])
-# for row in rows:
-#     print(format.format(*row))
