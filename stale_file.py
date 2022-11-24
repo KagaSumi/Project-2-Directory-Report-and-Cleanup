@@ -3,12 +3,26 @@ import sys
 import os
 import pathlib as PL
 
-def Print(Directory:PL.Path, Date:DT.datetime):
-    print(f'\nRoot directory: {Directory}\nBest Before Date: {Date}')
-    print(f'Files to delete:')
-    list = ScrapeFolder(Directory,Date,Directory)
-    print(list)
+#? Current test input
+#! python .\stale_file.py 'C:\Users\Curry\OneDrive\Desktop\Python Code\Weeek11\test_root'  2021-05-09 print
 
+def Print(Directory:PL.Path, Date:DT.datetime):
+    """Takes in a directory and date. Prints all files in that directory and subdirectories that have not been modified since Date.
+
+    Args:
+        Directory (PL.Path): Path of the of the directory we want to print all files from.
+        Date (DT.datetime): The date where we want to judge all files in the directory.
+    """    
+    Print_Date = Date.strftime('%Y-%m-%d')
+    print(f'\nRoot directory: {Directory}')
+    print(f'Best Before Date: {Print_Date}')
+    print(f'Files to delete:')
+    for file in ScrapeFolder(Directory,Date,Directory):
+        print(f'{file[0]:{60}}  {file[1]}   {file[2]:{3}} B')
+        
+def Report():
+    print('report')
+    
 def ScrapeFolder(Directory:PL.Path,Date:DT.datetime,Root:PL.Path) -> list[tuple[str,str,int]]:
     """Takes in a Directory,Date,and Root directory and returns a list of files that was last modified before the date.
 
@@ -35,9 +49,6 @@ def ScrapeFolder(Directory:PL.Path,Date:DT.datetime,Root:PL.Path) -> list[tuple[
                 for item in SubList:
                     List_Files.append(item)
     return List_Files
-
-def Report():
-    print('report')
 
 def VerifyAction(Action:str) -> bool:
     """Takes in a string representing the action user wants to execute. Returns a boolean indicating
