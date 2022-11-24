@@ -7,7 +7,7 @@ def Print(Directory:PL.Path, Date:DT.datetime):
     print('print')
     return
 
-def Report(Directory:PL.Path, Date:DT.datetime):
+def Report():
     print('report')
     return
 
