@@ -45,6 +45,7 @@ If a subdirectory is empty after the files are deleted then the subdirectory is 
 ### Additional Requirements
 
 The program should gracefully handle the following situations:
+
 * The root directory doesn't exists
 * The best before date is not valid
 * The action is not one of "Print" or "Report"
@@ -100,7 +101,7 @@ C:\Users\thomas_lane\clean_up_project\test_root\subdir2\file21.txt,2021-05-08,14
 1. https://realpython.com/python-datetime/
 2. https://docs.python.org/3/library/datetime.html
 
-### Python os module (required to set file timestamps):
+### Python os module (required to set file timestamps)
 
 1. https://nitratine.net/blog/post/change-file-modification-time-in-python/
 2. https://docs.python.org/3/library/os.html
