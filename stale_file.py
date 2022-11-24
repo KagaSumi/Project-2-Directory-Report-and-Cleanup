@@ -35,10 +35,37 @@ def VerifyAction(Action:str) -> bool:
         print(f'{Action} is not a valid input')
         raise ValueError     
 
-def VerifyDirectory(Directory:str):
-    return
+def VerifyDirectory(Directory:str) -> PL.Path:
+    """This function verifies a directory, it takes a string representing a path and returns a Path object.
+    Raises a ValueError if the directory does not exist.
 
-def VerifyDate(Date):
+    Args:
+        Directory (str): A string representing a directory
+
+    Raises:
+        ValueError: Raises if the directory does not exist
+
+    Returns:
+        PL.Path: Path object representing the directory passed as a string
+    """
+    if os.path.exists(Directory):
+        return PL.path(Directory)
+    else:
+        print(f'{Directory} does not exist')
+        raise ValueError
+
+def VerifyDate(Date:str) -> DT.datetime:
+    """Takes in a string representing date in ISO8601 format
+
+    Args:
+        Date (str): Should be in the form of YYYY-MM-DD
+
+    Raises:
+        ValueError: If string is not in ISO8601 format error is raised
+
+    Returns:
+        datetime: Returns a datetime value.
+    """    
     try:
         return DT.date.fromisoformat(Date)
     except ValueError:
@@ -55,10 +82,9 @@ def main():
         print('Stale_file requires 3 arguments to be specified directory , best before date , and action to take')
         return
     try:
-        Action = VerifyAction(Action)
-        VerifyDirectory(Directory)
+        Directory = VerifyDirectory(Directory)
         Date = VerifyDate(Date)
-        print(Date)
+        Action = VerifyAction(Action)
     except ValueError:  
             return
         
