@@ -4,7 +4,8 @@ import os
 import pathlib as PL
 
 def Print(Directory:PL.Path, Date:DT.datetime):
-    print('print')
+    print(f'\nRoot directory: {Directory}\nBest Before Date: {Date}')
+    print(f'Files to delete:')
     return
 
 def Report():
@@ -49,7 +50,7 @@ def VerifyDirectory(Directory:str) -> PL.Path:
         PL.Path: Path object representing the directory passed as a string
     """
     if os.path.exists(Directory):
-        return PL.path(Directory)
+        return PL.Path(Directory)
     else:
         print(f'{Directory} does not exist')
         raise ValueError
@@ -87,9 +88,8 @@ def main():
         Action = VerifyAction(Action)
     except ValueError:  
             return
-        
     if Action:
-        Print()
+        Print(Directory,Date)
     else:
         Report()
     
