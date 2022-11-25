@@ -16,7 +16,7 @@ def Print(Directory: PL.Path, Date: DT.datetime):
     Print_Date = Date.strftime('%Y-%m-%d')
     print(f'\nRoot directory: {os.path.abspath(Directory)}')
     print(f'Best Before Date: {Print_Date}')
-    print('Files to delete:')
+    print('\nFiles to delete:')
     for file in ScrapeFolder(Directory, Date, Directory):
         print(f'{format_file_path(file[0])}{file[1]} {format_file_size(file[2])}')
 
