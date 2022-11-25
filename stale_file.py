@@ -8,13 +8,13 @@ def Print(Directory: PL.Path, Date: DT.datetime):
     """
     Takes in a directory and date. Prints all files in that directory and subdirectories that have
     not been modified since Date.
-
+h
     Args:
         Directory (PL.Path): Path of the of the directory we want to print all files from.
         Date (DT.datetime): The date where we want to judge all files in the directory.
     """
     Print_Date = Date.strftime('%Y-%m-%d')
-    print(f'\nRoot directory: {Directory}')
+    print(f'\nRoot directory: {os.path.abspath(Directory)}')
     print(f'Best Before Date: {Print_Date}')
     print('Files to delete:')
     for file in ScrapeFolder(Directory, Date, Directory):
@@ -35,7 +35,7 @@ def Report(Directory: PL.Path, Date: DT.datetime):
     file_write_path = os.path.join(cwd, f'{Title_date}_stale_files.txt')
     with open(file_write_path, 'w') as TextFile:
         for file in File_list:
-            TextFile.write(f'{os.path.join(Directory,file[0])},{file[1]},{file[2]}\n')
+            TextFile.write(f'{os.path.join(os.path.abspath(Directory),file[0])},{file[1]},{file[2]}\n')
 
 
 def ScrapeFolder(Directory: PL.Path, Date: DT.datetime, Root: PL.Path) -> list[tuple[str, str, int]]:
@@ -109,7 +109,7 @@ def VerifyDirectory(Directory: str) -> PL.Path:
     Returns:
         PL.Path: Path object representing the directory passed as a string
     """
-    if os.path.exists(Directory):
+    if os.path.exists(os.path.join(PL.Path(__file__).parent.absolute(),Directory)):
         return PL.Path(Directory)
     else:
         print(f'{Directory} does not exist')
