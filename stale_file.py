@@ -4,7 +4,7 @@ import os
 import pathlib as PL
 
 # ? Current test input
-#! python .\stale_file.py 'C:\Users\Curry\OneDrive\Desktop\Python Code\Weeek11\test_root'  2021-05-09 print
+#! python .\stale_file.py 'C:\Users\Curry\OneDrive\Desktop\Python Code\Weeek11\test_root' 2021-05-09 print
 
 
 def Print(Directory: PL.Path, Date: DT.datetime):
@@ -22,12 +22,24 @@ def Print(Directory: PL.Path, Date: DT.datetime):
         print(f'{file[0]:{150}}{file[1]}{file[2]:{7}} B')
 
 
-def Report():
-    print('report')
+def Report(Directory: PL.Path, Date: DT.datetime):
+    """Takes in a directory and date, and will create a txt file that is formatted like a csv 
+    {filepath},{Last Modified Date},{Size in byte}
 
+    Args:
+        Directory (PL.Path): Path of directory
+        Date (DT.datetime): Date to compare last modified date.
+    """    
+    File_list = ScrapeFolder(Directory, Date, Directory)
+    cwd = PL.Path(__file__).parent.absolute()
+    Title_date = Date.strftime('%Y_%m_%d')
+    file_write_path = os.path.join(cwd,f'{Title_date}_stale_files.txt')
+    with open(file_write_path,'w') as TextFile:
+        for file in File_list:
+            TextFile.write(f'{os.path.join(Directory,file[0])},{file[1]},{file[2]}\n')
 
 def ScrapeFolder(Directory: PL.Path, Date: DT.datetime, Root: PL.Path) -> list[tuple[str, str, int]]:
-    """Takes in a Directory,Date,and Root directory and returns a list of files that was last modified before the date.
+    """Recursive function takes in a Directory,Date,and Root directory and returns a list of files that was last modified before the date.
 
     Args:
         Directory (PL.Path): Current working directory
@@ -136,7 +148,7 @@ def main():
     if Action:
         Print(Directory, Date)
     else:
-        Report()
+        Report(Directory, Date)
 
 
 if __name__ == '__main__':
