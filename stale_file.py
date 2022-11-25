@@ -3,9 +3,6 @@ import sys
 import os
 import pathlib as PL
 
-# ? Current test input
-#! python .\stale_file.py 'C:\Users\Curry\OneDrive\Desktop\Python Code\Weeek11\test_root' 2021-05-09 print
-
 
 def Print(Directory: PL.Path, Date: DT.datetime):
     """Takes in a directory and date. Prints all files in that directory and subdirectories that have not been modified since Date.
@@ -29,14 +26,15 @@ def Report(Directory: PL.Path, Date: DT.datetime):
     Args:
         Directory (PL.Path): Path of directory
         Date (DT.datetime): Date to compare last modified date.
-    """    
+    """
     File_list = ScrapeFolder(Directory, Date, Directory)
     cwd = PL.Path(__file__).parent.absolute()
     Title_date = Date.strftime('%Y_%m_%d')
-    file_write_path = os.path.join(cwd,f'{Title_date}_stale_files.txt')
-    with open(file_write_path,'w') as TextFile:
+    file_write_path = os.path.join(cwd, f'{Title_date}_stale_files.txt')
+    with open(file_write_path, 'w') as TextFile:
         for file in File_list:
             TextFile.write(f'{os.path.join(Directory,file[0])},{file[1]},{file[2]}\n')
+
 
 def ScrapeFolder(Directory: PL.Path, Date: DT.datetime, Root: PL.Path) -> list[tuple[str, str, int]]:
     """Recursive function takes in a Directory,Date,and Root directory, and check all files and subdirectories's files to see if they were modified before the date passed.
@@ -53,15 +51,15 @@ def ScrapeFolder(Directory: PL.Path, Date: DT.datetime, Root: PL.Path) -> list[t
     Files = os.listdir(Directory)
     List_Files = []
     for file in Files:
-        path = os.path.join(Directory, file)
-        M_TIME = DT.datetime.fromtimestamp(os.path.getmtime(path))
-        if Date > M_TIME:
-            M_TIME = M_TIME.strftime('%Y-%m-%d')
-            SIZE = os.path.getsize(path)
-            rel_file = os.path.relpath(path, Root)
-            List_Files.append((rel_file, M_TIME, SIZE))
-        if os.path.isdir(path):
-            if SubList := ScrapeFolder(path, Date, Root):
+        Path = os.path.join(Directory,file)
+        Mod_TIME = DT.datetime.fromtimestamp(os.path.getmtime(Path))
+        if Mod_TIME < Date:
+            Mod_TIME = Mod_TIME.strftime('%Y-%m-%d')
+            Size = os.path.getsize(Path)
+            Rel_Path = os.path.relpath(Path, Root)
+            List_Files.append((Rel_Path, Mod_TIME, Size))
+        if os.path.isdir(Path):
+            if SubList := ScrapeFolder(PL.Path(Path), Date, Root):
                 for item in SubList:
                     List_Files.append(item)
     return List_Files
@@ -71,7 +69,6 @@ def VerifyAction(Action: str) -> bool:
     """Takes in a string representing the action user wants to execute. Returns a boolean indicating
     True: Action is Print
     False: Action is Report
-
 
     Args:
         Action (str): Argument from command line
