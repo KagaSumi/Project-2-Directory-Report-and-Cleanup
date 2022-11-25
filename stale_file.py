@@ -16,7 +16,7 @@ def Print(Directory: PL.Path, Date: DT.datetime):
     print(f'Best Before Date: {Print_Date}')
     print(f'Files to delete:')
     for file in ScrapeFolder(Directory, Date, Directory):
-        print(f'{file[0]:{150}}{file[1]}{file[2]:{7}} B')
+        print(f'{file[0]:{70}}{file[1]}{file[2]:{7}} B')
 
 
 def Report(Directory: PL.Path, Date: DT.datetime):
