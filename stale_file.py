@@ -18,7 +18,7 @@ def Print(Directory: PL.Path, Date: DT.datetime):
     print(f'Best Before Date: {Print_Date}')
     print('Files to delete:')
     for file in ScrapeFolder(Directory, Date, Directory):
-        print(f'{file[0]:70}{file[1]} {Format_Size(file[2]): >9}')
+        print(f'{format_file_path(file[0])}{file[1]} {format_file_size(file[2])}')
 
 
 def Report(Directory: PL.Path, Date: DT.datetime):
@@ -70,9 +70,8 @@ def ScrapeFolder(Directory: PL.Path, Date: DT.datetime, Root: PL.Path) -> list[t
                     List_Files.append(item)
     return List_Files
 
-def Format_Size(file_size: int) -> str:
-    """ Taken from get_files_and_modification_times.py
-    Format file size in bytes into a human readable format
+def format_file_size(file_size: int) -> str:
+    """Format file size in bytes into a human readable format
 
     Args:
         file_size (int): File size in bytes
@@ -80,10 +79,12 @@ def Format_Size(file_size: int) -> str:
     Returns:
         str: Human readable file size
     """
-    KILOBYTE = 1024
     SIZE_WIDTH = 5  # number of characters to use for file size excluding decimal point
     DECIMAL_PLACES = 2  # number of decimal places to use for file size
-    SIZE_FORMAT = f">{SIZE_WIDTH}.{DECIMAL_PLACES}f"    
+    FIELD_WIDTH = 9  # number of characters to use for the entire field
+    KILOBYTE = 1024
+    SIZE_FORMAT = f">{SIZE_WIDTH}.{DECIMAL_PLACES}f"
+
     if file_size >= (KILOBYTE**3):
         size_str = f"{round(file_size / (KILOBYTE ** 3), 2):{SIZE_FORMAT}} GB"
 
@@ -96,7 +97,31 @@ def Format_Size(file_size: int) -> str:
     elif file_size < KILOBYTE:
         size_str = f"{file_size:>{SIZE_WIDTH}}  B"
 
-    return f"{size_str}"
+    return f"{size_str: >{FIELD_WIDTH}}"
+
+
+def format_file_path(file_path: PL.Path) -> str:
+    """Format a file path to a specific length, keeping the end of the path
+
+    Args:
+        file_path (pathlib.Path): File path to format
+
+    Returns:
+        str: Formatted file path
+    """
+    MAX_WIDTH = 80
+    PREFIX = "..."
+    format_string = f"{MAX_WIDTH}.{MAX_WIDTH}s"
+    # path_str = str(file_path.resolve())
+    path_str = str(file_path)
+
+    # if the path is longer than the max width, truncate the beginning of the path,
+    # leaving the end of the path and add a prefix to indicate the path has been truncated
+    # The maximum width of the path is MAX_WIDTH characters
+    if len(path_str) > MAX_WIDTH:
+        path_str = PREFIX + str(path_str)[-(MAX_WIDTH - len(PREFIX)) :]
+
+    return f"{str(path_str):{format_string}}"
 
 def VerifyAction(Action: str) -> bool:
     """Takes in a string representing the action user wants to execute. Returns a boolean indicating
