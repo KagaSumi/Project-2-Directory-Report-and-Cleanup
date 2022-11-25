@@ -5,7 +5,9 @@ import pathlib as PL
 
 
 def Print(Directory: PL.Path, Date: DT.datetime):
-    """Takes in a directory and date. Prints all files in that directory and subdirectories that have not been modified since Date.
+    """
+    Takes in a directory and date. Prints all files in that directory and subdirectories that have
+    not been modified since Date.
 
     Args:
         Directory (PL.Path): Path of the of the directory we want to print all files from.
@@ -14,7 +16,7 @@ def Print(Directory: PL.Path, Date: DT.datetime):
     Print_Date = Date.strftime('%Y-%m-%d')
     print(f'\nRoot directory: {Directory}')
     print(f'Best Before Date: {Print_Date}')
-    print(f'Files to delete:')
+    print('Files to delete:')
     for file in ScrapeFolder(Directory, Date, Directory):
         print(f'{file[0]:{70}}{file[1]}{file[2]:{7}} B')
 
@@ -37,7 +39,9 @@ def Report(Directory: PL.Path, Date: DT.datetime):
 
 
 def ScrapeFolder(Directory: PL.Path, Date: DT.datetime, Root: PL.Path) -> list[tuple[str, str, int]]:
-    """Recursive function takes in a Directory,Date,and Root directory, and check all files and subdirectories's files to see if they were modified before the date passed.
+    """
+    Recursive function takes in a Directory,Date,and Root directory, and check all files
+    and subdirectories's files to see if they were modified before the date passed.
     This function will call itself and if it finds a folder to check for files inside the folder.
 
     Args:
@@ -46,7 +50,9 @@ def ScrapeFolder(Directory: PL.Path, Date: DT.datetime, Root: PL.Path) -> list[t
         Root (PL.Path): Original working directory
 
     Returns:
-        list[tuple[str,str,int]]: a List of a tuples containing the relative path in the directory from the root, the date it was last modified in the form of YYYY-MM-DD, and the file size in bytes.
+        list[tuple[str,str,int]]: a List of a tuples containing the relative path in the
+        directory from the root, the date it was last modified in the form of YYYY-MM-DD, and the
+        file size in bytes.
     """
     Files = os.listdir(Directory)
     List_Files = []
@@ -80,9 +86,9 @@ def VerifyAction(Action: str) -> bool:
         bool: True if Action is Print, False if Action is Report
     """
     Actions = [['PRINT', 'P'], ['REPORT', 'R']]
-    if (Action.upper() in Actions[0]):
+    if Action.upper() in Actions[0]:
         return True
-    elif (Action.upper() in Actions[1]):
+    elif Action.upper() in Actions[1]:
         return False
     else:
         print(f'{Action} is not a valid action\nActions should be "Print" or "Report"')
@@ -90,7 +96,8 @@ def VerifyAction(Action: str) -> bool:
 
 
 def VerifyDirectory(Directory: str) -> PL.Path:
-    """This function verifies a directory, it takes a string representing a path and returns a Path object.
+    """
+    This function verifies a directory, it takes a string representing a path and returns a Path object.
     Raises a ValueError if the directory does not exist.
 
     Args:
