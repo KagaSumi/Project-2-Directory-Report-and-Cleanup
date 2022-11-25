@@ -20,13 +20,13 @@ The output includes:
 2. A line for each file that includes:
    1. The relative path of each file from the root directory
    2. The modification date of the file
-   3. The file size in MB
+   3. The file size in B
 
 ### Report
 
 If the third parameter is "Report" then the program generates a report file called `YYYY_MM_DD_stale_files_.txt` in the same directory as the `stale_file.py script file
 
-The first line of hte file is the full path of the root directory.
+The first line of the file is the full path of the root directory.
 
 This the remaining lines of the file contain the following columns separated by commas:
 
@@ -73,6 +73,8 @@ subdir1\file11.txt                                                              
 subdir1\file12.txt                                                               2021-05-08    145  B
 subdir2\file21.txt                                                               2021-05-08    145  B
 ```
+
+Note that your output may not have matching file sizes due to how `make_file_hierarchy.py` uses the path to fill the text file.
 
 ### Invocation: Report
 
