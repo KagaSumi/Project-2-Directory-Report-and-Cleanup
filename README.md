@@ -5,7 +5,7 @@
 Create a command line program, `stale_file.py` that accepts three parameters:
 
 1. a root directory
-2. a best before dat in teh form YYYY-MM-DD
+2. a best before date in the form YYYY-MM-DD
 3. action which is one of "Print"/"P" or "Report"/"R"
 
 Based on these inputs `stale_file.py` generates a list all of the files that haven't been modified since the best before date and either outputs them to the console or writes them to a report file.
