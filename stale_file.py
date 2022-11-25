@@ -8,7 +8,7 @@ def Print(Directory: PL.Path, Date: DT.datetime):
     """
     Takes in a directory and date. Prints all files in that directory and subdirectories that have
     not been modified since Date.
-h
+    
     Args:
         Directory (PL.Path): Path of the of the directory we want to print all files from.
         Date (DT.datetime): The date where we want to judge all files in the directory.
@@ -18,7 +18,7 @@ h
     print(f'Best Before Date: {Print_Date}')
     print('Files to delete:')
     for file in ScrapeFolder(Directory, Date, Directory):
-        print(f'{file[0]:{70}}{file[1]}{file[2]:{7}} B')
+        print(f'{file[0]:70}{file[1]} {Format_Size(file[2]): >9}')
 
 
 def Report(Directory: PL.Path, Date: DT.datetime):
@@ -38,7 +38,7 @@ def Report(Directory: PL.Path, Date: DT.datetime):
             TextFile.write(f'{os.path.join(os.path.abspath(Directory),file[0])},{file[1]},{file[2]}\n')
 
 
-def ScrapeFolder(Directory: PL.Path, Date: DT.datetime, Root: PL.Path) -> list[tuple[str, str, int]]:
+def ScrapeFolder(Directory: PL.Path, Date: DT.datetime, Root: PL.Path) -> list[tuple[str, str, int,str]]:
     """
     Recursive function takes in a Directory,Date,and Root directory, and check all files
     and subdirectories's files to see if they were modified before the date passed.
@@ -51,8 +51,8 @@ def ScrapeFolder(Directory: PL.Path, Date: DT.datetime, Root: PL.Path) -> list[t
 
     Returns:
         list[tuple[str,str,int]]: a List of a tuples containing the relative path in the
-        directory from the root, the date it was last modified in the form of YYYY-MM-DD, and the
-        file size in bytes.
+        directory from the root, the date it was last modified in the form of YYYY-MM-DD,the
+        file size, and prefix.
     """
     Files = os.listdir(Directory)
     List_Files = []
@@ -61,8 +61,8 @@ def ScrapeFolder(Directory: PL.Path, Date: DT.datetime, Root: PL.Path) -> list[t
         Mod_TIME = DT.datetime.fromtimestamp(os.path.getmtime(Path))
         if Mod_TIME < Date:
             Mod_TIME = Mod_TIME.strftime('%Y-%m-%d')
-            Size = os.path.getsize(Path)
             Rel_Path = os.path.relpath(Path, Root)
+            Size = os.path.getsize(Path)
             List_Files.append((Rel_Path, Mod_TIME, Size))
         if os.path.isdir(Path):
             if SubList := ScrapeFolder(PL.Path(Path), Date, Root):
@@ -70,6 +70,33 @@ def ScrapeFolder(Directory: PL.Path, Date: DT.datetime, Root: PL.Path) -> list[t
                     List_Files.append(item)
     return List_Files
 
+def Format_Size(file_size: int) -> str:
+    """ Taken from get_files_and_modification_times.py
+    Format file size in bytes into a human readable format
+
+    Args:
+        file_size (int): File size in bytes
+
+    Returns:
+        str: Human readable file size
+    """
+    KILOBYTE = 1024
+    SIZE_WIDTH = 5  # number of characters to use for file size excluding decimal point
+    DECIMAL_PLACES = 2  # number of decimal places to use for file size
+    SIZE_FORMAT = f">{SIZE_WIDTH}.{DECIMAL_PLACES}f"    
+    if file_size >= (KILOBYTE**3):
+        size_str = f"{round(file_size / (KILOBYTE ** 3), 2):{SIZE_FORMAT}} GB"
+
+    elif file_size >= (KILOBYTE**2):
+        size_str = f"{round(file_size / (KILOBYTE ** 2), 2):{SIZE_FORMAT}} MB"
+
+    elif file_size >= KILOBYTE:
+        size_str = f"{round(file_size / KILOBYTE, 2):{SIZE_FORMAT}} KB"
+
+    elif file_size < KILOBYTE:
+        size_str = f"{file_size:>{SIZE_WIDTH}}  B"
+
+    return f"{size_str}"
 
 def VerifyAction(Action: str) -> bool:
     """Takes in a string representing the action user wants to execute. Returns a boolean indicating

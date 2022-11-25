@@ -1,0 +1,12 @@
+C:\Users\Curry\OneDrive\Desktop\Python Code\Assignment 2\test_root\file01.txt,2022-03-31,83
+C:\Users\Curry\OneDrive\Desktop\Python Code\Assignment 2\test_root\file02.txt,2022-11-20,83
+C:\Users\Curry\OneDrive\Desktop\Python Code\Assignment 2\test_root\subdir1,2021-05-08,0
+C:\Users\Curry\OneDrive\Desktop\Python Code\Assignment 2\test_root\subdir1\file11.txt,2020-12-14,91
+C:\Users\Curry\OneDrive\Desktop\Python Code\Assignment 2\test_root\subdir1\file12.txt,2021-05-08,91
+C:\Users\Curry\OneDrive\Desktop\Python Code\Assignment 2\test_root\subdir2,2021-08-01,0
+C:\Users\Curry\OneDrive\Desktop\Python Code\Assignment 2\test_root\subdir2\file21.txt,2021-05-08,91
+C:\Users\Curry\OneDrive\Desktop\Python Code\Assignment 2\test_root\subdir2\file22.txt,2021-08-01,91
+C:\Users\Curry\OneDrive\Desktop\Python Code\Assignment 2\test_root\subdir3,2022-11-25,0
+C:\Users\Curry\OneDrive\Desktop\Python Code\Assignment 2\test_root\subdir3\file31.txt,2022-01-19,91
+C:\Users\Curry\OneDrive\Desktop\Python Code\Assignment 2\test_root\subdir3\file32.txt,2022-10-19,91
+C:\Users\Curry\OneDrive\Desktop\Python Code\Assignment 2\test_root\subdir3\week 6.pdf,2022-10-11,461465
