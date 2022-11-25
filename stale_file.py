@@ -39,7 +39,8 @@ def Report(Directory: PL.Path, Date: DT.datetime):
             TextFile.write(f'{os.path.join(Directory,file[0])},{file[1]},{file[2]}\n')
 
 def ScrapeFolder(Directory: PL.Path, Date: DT.datetime, Root: PL.Path) -> list[tuple[str, str, int]]:
-    """Recursive function takes in a Directory,Date,and Root directory and returns a list of files that was last modified before the date.
+    """Recursive function takes in a Directory,Date,and Root directory, and check all files and subdirectories's files to see if they were modified before the date passed.
+    This function will call itself and if it finds a folder to check for files inside the folder.
 
     Args:
         Directory (PL.Path): Current working directory
@@ -47,7 +48,7 @@ def ScrapeFolder(Directory: PL.Path, Date: DT.datetime, Root: PL.Path) -> list[t
         Root (PL.Path): Original working directory
 
     Returns:
-        list[tuple[str,str,int]]: a List of a tuples containing the files that were last modified before the date specified.
+        list[tuple[str,str,int]]: a List of a tuples containing the relative path in the directory from the root, the date it was last modified in the form of YYYY-MM-DD, and the file size in bytes.
     """
     Files = os.listdir(Directory)
     List_Files = []
