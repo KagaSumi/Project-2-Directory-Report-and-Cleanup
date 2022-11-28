@@ -29,12 +29,11 @@ def Report(Directory: PL.Path, Date: DT.datetime):
         Directory (PL.Path): Path of directory
         Date (DT.datetime): Date to compare last modified date.
     """
-    File_list = ScrapeFolder(Directory, Date, Directory)
     cwd = PL.Path(__file__).parent.absolute()
     Title_date = Date.strftime('%Y_%m_%d')
     file_write_path = os.path.join(cwd, f'{Title_date}_stale_files.txt')
     with open(file_write_path, 'w') as TextFile:
-        for file in File_list:
+        for file in ScrapeFolder(Directory, Date, Directory):
             TextFile.write(f'{os.path.join(os.path.abspath(Directory),file[0])},{file[1]},{file[2]}\n')
 
 
@@ -137,13 +136,12 @@ def VerifyAction(Action: str) -> bool:
     Returns:
         bool: True if Action is Print, False if Action is Report
     """
-    Actions = [['PRINT', 'P'], ['REPORT', 'R']]
-    if Action.upper() in Actions[0]:
+    if Action.upper() in ['PRINT', 'P']:
         return True
-    elif Action.upper() in Actions[1]:
+    elif Action.upper() in ['REPORT', 'R']:
         return False
     else:
-        print(f'{Action} is not a valid action\nActions should be "Print" or "Report"')
+        print(f'{Action} is not a valid action\nActions should be "P/Print" or "R/Report"')
         raise ValueError
 
 
