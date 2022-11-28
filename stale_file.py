@@ -192,7 +192,10 @@ def main():
         Date = ARGS[1]
         Action = ARGS[2]
     except IndexError:
-        print('Stale_file requires 3 arguments to be specified directory , best before date , and action to take')
+        print('''Stale_file requires 3 arguments directory, date, and action
+              This specified directory can be full path or relative to the current working directory
+              Best Before date should be in the form of YYYY-MM-DD
+              Valid Actions: R/Report or P/Print''')
         return
     try:
         Directory = VerifyDirectory(Directory)
