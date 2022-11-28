@@ -51,7 +51,7 @@ def ScrapeFolder(Directory: PL.Path, Date: DT.datetime, Root: PL.Path) -> list[t
     Returns:
         list[tuple[str,str,int]]: a List of a tuples containing the relative path in the
         directory from the root, the date it was last modified in the form of YYYY-MM-DD,the
-        file size, and prefix.
+        file size in bytes.
     """
     Files = os.listdir(Directory)
     List_Files = []
