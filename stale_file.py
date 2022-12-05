@@ -33,6 +33,7 @@ def Report(Directory: PL.Path, Date: DT.datetime):
     Title_date = Date.strftime('%Y_%m_%d')
     file_write_path = os.path.join(cwd, f'{Title_date}_stale_files.txt')
     with open(file_write_path, 'w') as TextFile:
+        TextFile.write(f'{os.path.abspath(Directory)}\n')
         for file in ScrapeFolder(Directory, Date, Directory):
             TextFile.write(f'{os.path.join(os.path.abspath(Directory),file[0])},{file[1]},{file[2]}\n')
 
@@ -193,8 +194,9 @@ def main():
         Action = ARGS[2]
     except IndexError:
         print('''Stale_file requires 3 arguments directory, date, and action
-              This specified directory can be full path or relative to the current working directory
-              Best Before date should be in the form of YYYY-MM-DD
+              
+              Directory: Can be full path or relative path
+              Best Before: Date should be in the form of YYYY-MM-DD
               Valid Actions: R/Report or P/Print''')
         return
     try:
